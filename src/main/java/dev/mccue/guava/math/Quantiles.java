@@ -67,7 +67,7 @@ import java.util.Map;
  * it being arbitrarily reordered, and you want to avoid that copy, you can use {@code
  * computeInPlace} instead of {@code compute}.
  *
- * <h4>Definition and notes on interpolation</h4>
+ * <h3>Definition and notes on interpolation</h3>
  *
  * <p>The definition of the kth q-quantile of N values is as follows: define x = k * (N - 1) / q; if
  * x is an integer, the result is the value which would appear at index x in the sorted dataset
