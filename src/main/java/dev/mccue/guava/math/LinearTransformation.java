@@ -34,11 +34,10 @@ import dev.mccue.jsr305.CheckForNull;
  */
 @ElementTypesAreNonnullByDefault
 public abstract class LinearTransformation {
-  public LinearTransformation() {}
 
   /**
    * Start building an instance which maps {@code x = x1} to {@code y = y1}. Both arguments must be
-   * finite. Call either {@link LinearTransformationBuilder#and} or {@link
+   * finite. Call either {@code LinearTransformationBuilder#and} or {@code
    * LinearTransformationBuilder#withSlope} on the returned object to finish building the instance.
    */
   public static LinearTransformationBuilder mapping(double x1, double y1) {
@@ -47,7 +46,7 @@ public abstract class LinearTransformation {
   }
 
   /**
-   * This is an intermediate stage in the construction process. It is returned by {@link
+   * This is an intermediate stage in the construction process. It is returned by {@code
    * LinearTransformation#mapping}. You almost certainly don't want to keep instances around, but
    * instead use method chaining. This represents a single point mapping, i.e. a mapping between one
    * {@code x} and {@code y} value pair.
@@ -116,9 +115,9 @@ public abstract class LinearTransformation {
   }
 
   /**
-   * Builds an instance for datasets which contains {@link Double#NaN}. The {@link #isHorizontal}
-   * and {@link #isVertical} methods return {@code false} and the {@link #slope}, and {@link
-   * #transform} methods all return {@link Double#NaN}. The {@link #inverse} method returns the same
+   * Builds an instance for datasets which contains {@code Double#NaN}. The {@code #isHorizontal}
+   * and {@code #isVertical} methods return {@code false} and the {@code #slope}, and {@code
+   * #transform} methods all return {@code Double#NaN}. The {@code #inverse} method returns the same
    * instance.
    */
   public static LinearTransformation forNaN() {
@@ -133,20 +132,20 @@ public abstract class LinearTransformation {
 
   /**
    * Returns the slope of the transformation, i.e. the rate of change of {@code y} with respect to
-   * {@code x}. This must not be called on a vertical transformation (i.e. when {@link
+   * {@code x}. This must not be called on a vertical transformation (i.e. when {@code
    * #isVertical()} is true).
    */
   public abstract double slope();
 
   /**
    * Returns the {@code y} corresponding to the given {@code x}. This must not be called on a
-   * vertical transformation (i.e. when {@link #isVertical()} is true).
+   * vertical transformation (i.e. when {@code #isVertical()} is true).
    */
   public abstract double transform(double x);
 
   /**
    * Returns the inverse linear transformation. The inverse of a horizontal transformation is a
-   * vertical transformation, and vice versa. The inverse of the {@link #forNaN} transformation is
+   * vertical transformation, and vice versa. The inverse of the {@code #forNaN} transformation is
    * itself. In all other cases, the inverse is a transformation such that applying both the
    * original transformation and its inverse to a value gives you the original value give-or-take
    * numerical errors. Calling this method multiple times on the same instance will always return

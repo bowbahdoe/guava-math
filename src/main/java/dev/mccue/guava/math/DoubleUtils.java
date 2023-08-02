@@ -38,15 +38,15 @@ final class DoubleUtils {
     return -Math.nextUp(-d);
   }
 
-  // The mask for the significand, according to the {@link
+  // The mask for the significand, according to the {@code
   // Double#doubleToRawLongBits(double)} spec.
   static final long SIGNIFICAND_MASK = 0x000fffffffffffffL;
 
-  // The mask for the exponent, according to the {@link
+  // The mask for the exponent, according to the {@code
   // Double#doubleToRawLongBits(double)} spec.
   static final long EXPONENT_MASK = 0x7ff0000000000000L;
 
-  // The mask for the sign, according to the {@link
+  // The mask for the sign, according to the {@code
   // Double#doubleToRawLongBits(double)} spec.
   static final long SIGN_MASK = 0x8000000000000000L;
 
@@ -132,5 +132,5 @@ final class DoubleUtils {
     return Math.max(value, 0.0);
   }
 
-  @VisibleForTesting static final long ONE_BITS = 0x3ff0000000000000L;
+  static final long ONE_BITS = 0x3ff0000000000000L;
 }

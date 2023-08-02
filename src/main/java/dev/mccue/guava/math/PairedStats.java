@@ -30,7 +30,7 @@ import dev.mccue.jsr305.CheckForNull;
 
 /**
  * An immutable value object capturing some basic statistics about a collection of paired double
- * values (e.g. points on a plane). Build instances with {@link PairedStatsAccumulator#snapshot}.
+ * values (e.g. points on a plane). Build instances with {@code PairedStatsAccumulator#snapshot}.
  *
  * @author Pete Gillin
  * @since 20.0
@@ -43,7 +43,7 @@ public final class PairedStats implements Serializable {
   private final double sumOfProductsOfDeltas;
 
   /**
-   * Internal constructor. Users should use {@link PairedStatsAccumulator#snapshot}.
+   * Internal constructor. Users should use {@code PairedStatsAccumulator#snapshot}.
    *
    * <p>To ensure that the created instance obeys its contract, the parameters should satisfy the
    * following constraints. This is the callers responsibility and is not enforced here.
@@ -82,10 +82,10 @@ public final class PairedStats implements Serializable {
    * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
    * times, due to numerical errors.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -100,10 +100,10 @@ public final class PairedStats implements Serializable {
    * <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
    * multiple times, due to numerical errors.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values
    */
@@ -120,10 +120,10 @@ public final class PairedStats implements Serializable {
    * guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
    * numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or
    *     either the {@code x} and {@code y} dataset has zero population variance
@@ -159,17 +159,17 @@ public final class PairedStats implements Serializable {
    * values (i.e. it is the square root of the mean of the squares of the vertical distances between
    * the data points and the best fit line). For this fit, this error is a fraction {@code sqrt(1 -
    * R*R)} of the population standard deviation of {@code y}, where {@code R} is the Pearson's
-   * correlation coefficient (as given by {@link #pearsonsCorrelationCoefficient()}).
+   * correlation coefficient (as given by {@code #pearsonsCorrelationCoefficient()}).
    *
    * <p>The corresponding root-mean-square error in {@code x} as a function of {@code y} is a
    * fraction {@code sqrt(1/(R*R) - 1)} of the population standard deviation of {@code x}. This fit
    * does not normally minimize that error: to do that, you should swap the roles of {@code x} and
    * {@code y}.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code
    * LinearTransformation#forNaN()}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or
@@ -200,7 +200,7 @@ public final class PairedStats implements Serializable {
    * <p><b>Note:</b> This tests exact equality of the calculated statistics, including the floating
    * point values. Two instances are guaranteed to be considered equal if one is copied from the
    * other using {@code second = new PairedStatsAccumulator().addAll(first).snapshot()}, if both
-   * were obtained by calling {@code snapshot()} on the same {@link PairedStatsAccumulator} without
+   * were obtained by calling {@code snapshot()} on the same {@code PairedStatsAccumulator} without
    * adding any values in between the two calls, or if one is obtained from the other after
    * round-tripping through java serialization. However, floating point rounding errors mean that it
    * may be false for some instances where the statistics are mathematically equal, including
@@ -210,7 +210,7 @@ public final class PairedStats implements Serializable {
    * guarantees {@code strictfp}-like semantics.)
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == null) {
       return false;
     }
@@ -227,7 +227,7 @@ public final class PairedStats implements Serializable {
    * {@inheritDoc}
    *
    * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
-   * including the floating point values. See the note on {@link #equals} for details.
+   * including the floating point values. See the note on {@code #equals} for details.
    */
   @Override
   public int hashCode() {
@@ -292,8 +292,8 @@ public final class PairedStats implements Serializable {
   }
 
   /**
-   * Creates a {@link PairedStats} instance from the given byte representation which was obtained by
-   * {@link #toByteArray}.
+   * Creates a {@code PairedStats} instance from the given byte representation which was obtained by
+   * {@code #toByteArray}.
    *
    * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
    * versions.

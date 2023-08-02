@@ -37,18 +37,19 @@ import java.math.RoundingMode;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link
- * IntMath} and {@link BigIntegerMath} respectively. For other common operations on {@code long}
- * values, see {@link dev.mccue.guava.primitives.Longs}.
+ * <p>Similar functionality for {@code int} and for {@code BigInteger} can be found in {@code
+ * IntMath} and {@code BigIntegerMath} respectively. For other common operations on {@code long}
+ * values, see {@code dev.mccue.guava.primitives.Longs}.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
+
 @ElementTypesAreNonnullByDefault
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  @VisibleForTesting static final long MAX_SIGNED_POWER_OF_TWO = 1L << (Long.SIZE - 2);
+  static final long MAX_SIGNED_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
    * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to
@@ -86,7 +87,7 @@ public final class LongMath {
    * Returns {@code true} if {@code x} represents a power of two.
    *
    * <p>This differs from {@code Long.bitCount(x) == 1}, because {@code
-   * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
+   * Long.bitCount(Long.MIN_VALUE) == 1}, but {@code Long#MIN_VALUE} is not a power of two.
    */
   @SuppressWarnings("ShortCircuitBoolean")
   public static boolean isPowerOfTwo(long x) {
@@ -98,7 +99,6 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
-  @VisibleForTesting
   static int lessThanBranchFree(long x, long y) {
     // Returns the sign bit of x - y.
     return (int) (~~(x - y) >>> (Long.SIZE - 1));
@@ -108,7 +108,7 @@ public final class LongMath {
    * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of two
    */
   @SuppressWarnings("fallthrough")
@@ -141,15 +141,16 @@ public final class LongMath {
   }
 
   /** The biggest half power of two that fits into an unsigned long */
-  @VisibleForTesting static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
+  static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
 
   /**
    * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
+  // TODO
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
   public static int log10(long x, RoundingMode mode) {
@@ -175,6 +176,7 @@ public final class LongMath {
     throw new AssertionError();
   }
 
+  // TODO
   static int log10Floor(long x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
@@ -192,14 +194,13 @@ public final class LongMath {
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting
   static final byte[] maxLog10ForLeadingZeros = {
     19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12,
     12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3,
     3, 2, 2, 2, 1, 1, 1, 0, 0, 0
   };
 
-  @VisibleForTesting
+  // TODO
   static final long[] powersOf10 = {
     1L,
     10L,
@@ -223,7 +224,7 @@ public final class LongMath {
   };
 
   // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
-  @VisibleForTesting
+  // TODO
   static final long[] halfPowersOf10 = {
     3L,
     31L,
@@ -253,6 +254,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  // TODO
   public static long pow(long b, int k) {
     checkNonNegative("exponent", k);
     if (-2 <= b && b <= 2) {
@@ -292,9 +294,10 @@ public final class LongMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code
    *     sqrt(x)} is not an integer
    */
+  // TODO
   public static long sqrt(long x, RoundingMode mode) {
     checkNonNegative("x", x);
     if (fitsInInt(x)) {
@@ -313,7 +316,7 @@ public final class LongMath {
      *          since casting to long is monotonic
      * k <= (long) Math.sqrt(x) <= k + 1
      *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in
-     *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
+     *          {@code LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
      */
     long guess = (long) Math.sqrt((double) x);
     // Note: guess is always <= FLOOR_SQRT_MAX_LONG.
@@ -364,6 +367,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
    */
+  // TODO
   @SuppressWarnings("fallthrough")
   public static long divide(long p, long q, RoundingMode mode) {
     checkNotNull(mode);
@@ -436,6 +440,7 @@ public final class LongMath {
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
+  // TODO
   public static int mod(long x, int m) {
     // Cast is safe because the result is guaranteed in the range [0, m)
     return (int) mod(x, (long) m);
@@ -459,6 +464,7 @@ public final class LongMath {
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
+  // TODO
   public static long mod(long x, long m) {
     if (m <= 0) {
       throw new ArithmeticException("Modulus must be positive");
@@ -535,6 +541,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
+  // TODO
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
@@ -581,6 +588,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     long} arithmetic
    */
+  // TODO
   @SuppressWarnings("ShortCircuitBoolean")
   public static long checkedPow(long b, int k) {
     checkNonNegative("exponent", k);
@@ -744,14 +752,15 @@ public final class LongMath {
     }
   }
 
-  @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
+  static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
-   * {@code n == 0}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.
+   * {@code n == 0}, or {@code Long#MAX_VALUE} if the result does not fit in a {@code long}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
+  // TODO
   public static long factorial(int n) {
     checkNonNegative("n", n);
     return (n < factorials.length) ? factorials[n] : Long.MAX_VALUE;
@@ -783,7 +792,7 @@ public final class LongMath {
 
   /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
-   * {@code k}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.
+   * {@code k}, or {@code Long#MAX_VALUE} if the result does not fit in a {@code long}.
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
@@ -904,7 +913,6 @@ public final class LongMath {
    * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl, but
    * binomial(biggestSimpleBinomials[k] + 1, k) does.
    */
-  @VisibleForTesting
   static final int[] biggestSimpleBinomials = {
     Integer.MAX_VALUE,
     Integer.MAX_VALUE,
@@ -974,11 +982,12 @@ public final class LongMath {
    * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i> be
    * factored into smaller positive integers).
    *
-   * <p>To test larger numbers, use {@link BigInteger#isProbablePrime}.
+   * <p>To test larger numbers, use {@code BigInteger#isProbablePrime}.
    *
    * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
+  // TODO
   public static boolean isPrime(long n) {
     if (n < 2) {
       checkNonNegative("n", n);
@@ -1210,13 +1219,13 @@ public final class LongMath {
    * otherwise, the rounding will choose between the two nearest representable values with {@code
    * mode}.
    *
-   * <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+   * <p>For the case of {@code RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
    * default rounding mode: if the two nearest representable values are equally near, the one with
    * the least significant bit zero is chosen. (In such cases, both of the nearest representable
    * values are even integers; this method returns the one that is a multiple of a greater power of
    * two.)
    *
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not precisely representable as a {@code double}
    * @since 30.0
    */

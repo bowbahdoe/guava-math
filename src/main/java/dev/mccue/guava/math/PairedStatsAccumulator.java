@@ -37,8 +37,6 @@ public final class PairedStatsAccumulator {
   private final StatsAccumulator yStats = new StatsAccumulator();
   private double sumOfProductsOfDeltas = 0.0;
 
-  public PairedStatsAccumulator() {}
-
   /** Adds the given pair of values to the dataset. */
   public void add(double x, double y) {
     // We extend the recursive expression for the one-variable case at Art of Computer Programming
@@ -115,10 +113,10 @@ public final class PairedStatsAccumulator {
    * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
    * times, due to numerical errors.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -133,10 +131,10 @@ public final class PairedStatsAccumulator {
    * <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
    * multiple times, due to numerical errors.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values
    */
@@ -153,10 +151,10 @@ public final class PairedStatsAccumulator {
    * guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
    * numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or
    *     either the {@code x} and {@code y} dataset has zero population variance
@@ -192,17 +190,17 @@ public final class PairedStatsAccumulator {
    * values (i.e. it is the square root of the mean of the squares of the vertical distances between
    * the data points and the best fit line). For this fit, this error is a fraction {@code sqrt(1 -
    * R*R)} of the population standard deviation of {@code y}, where {@code R} is the Pearson's
-   * correlation coefficient (as given by {@link #pearsonsCorrelationCoefficient()}).
+   * correlation coefficient (as given by {@code #pearsonsCorrelationCoefficient()}).
    *
    * <p>The corresponding root-mean-square error in {@code x} as a function of {@code y} is a
    * fraction {@code sqrt(1/(R*R) - 1)} of the population standard deviation of {@code x}. This fit
    * does not normally minimize that error: to do that, you should swap the roles of {@code x} and
    * {@code y}.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code
    * LinearTransformation#forNaN()}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or

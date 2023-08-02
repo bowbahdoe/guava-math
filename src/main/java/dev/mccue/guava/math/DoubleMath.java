@@ -37,17 +37,19 @@ import java.math.RoundingMode;
 import java.util.Iterator;
 
 /**
- * A class for arithmetic on doubles that is not covered by {@link Math}.
+ * A class for arithmetic on doubles that is not covered by {@code java.lang.Math}.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
+
 @ElementTypesAreNonnullByDefault
 public final class DoubleMath {
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result as
    * rounding x according to the specified mode.
    */
+  // #isMathematicalInteger, dev.mccue.guava.math.DoubleUtils
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
       throw new ArithmeticException("input is infinite or NaN");
@@ -119,10 +121,11 @@ public final class DoubleMath {
    *       <li>{@code x}, after being rounded to a mathematical integer using the specified rounding
    *           mode, is either less than {@code Integer.MIN_VALUE} or greater than {@code
    *           Integer.MAX_VALUE}
-   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@link
+   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@code
    *           RoundingMode#UNNECESSARY}
    *     </ul>
    */
+  // #roundIntermediate
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -143,10 +146,11 @@ public final class DoubleMath {
    *       <li>{@code x}, after being rounded to a mathematical integer using the specified rounding
    *           mode, is either less than {@code Long.MIN_VALUE} or greater than {@code
    *           Long.MAX_VALUE}
-   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@link
+   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@code
    *           RoundingMode#UNNECESSARY}
    *     </ul>
    */
+  // #roundIntermediate
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -168,10 +172,11 @@ public final class DoubleMath {
    * @throws ArithmeticException if
    *     <ul>
    *       <li>{@code x} is infinite or NaN
-   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@link
+   *       <li>{@code x} is not a mathematical integer and {@code mode} is {@code
    *           RoundingMode#UNNECESSARY}
    *     </ul>
    */
+  // #roundIntermediate, java.lang.Math.getExponent, dev.mccue.guava.math.DoubleUtils
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -187,6 +192,7 @@ public final class DoubleMath {
    * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer
    * {@code k}.
    */
+  // dev.mccue.guava.math.DoubleUtils
   public static boolean isPowerOfTwo(double x) {
     if (x > 0.0 && isFinite(x)) {
       long significand = getSignificand(x);
@@ -208,7 +214,7 @@ public final class DoubleMath {
    *
    * <p>The computed result is within 1 ulp of the exact result.
    *
-   * <p>If the result of this method will be immediately rounded to an {@code int}, {@link
+   * <p>If the result of this method will be immediately rounded to an {@code int}, {@code
    * #log2(double, RoundingMode)} is faster.
    */
   public static double log2(double x) {
@@ -224,6 +230,7 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code x <= 0.0}, {@code x} is NaN, or {@code x} is
    *     infinite
    */
+  // java.lang.Math.getExponent, dev.mccue.guava.math.DoubleUtils
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
@@ -272,6 +279,7 @@ public final class DoubleMath {
    * <p>This is equivalent to, but not necessarily implemented as, the expression {@code
    * !Double.isNaN(x) && !Double.isInfinite(x) && x == Math.rint(x)}.
    */
+  // java.lang.Math.getExponent, dev.mccue.guava.math.DoubleUtils
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
         && (x == 0.0
@@ -280,7 +288,7 @@ public final class DoubleMath {
 
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
-   * {@code n == 0}, or {@code n!}, or {@link Double#POSITIVE_INFINITY} if {@code n! >
+   * {@code n == 0}, or {@code n!}, or {@code Double#POSITIVE_INFINITY} if {@code n! >
    * Double.MAX_VALUE}.
    *
    * <p>The result is within 1 ulp of the true value.
@@ -302,9 +310,8 @@ public final class DoubleMath {
     }
   }
 
-  @VisibleForTesting static final int MAX_FACTORIAL = 170;
+  static final int MAX_FACTORIAL = 170;
 
-  @VisibleForTesting
   static final double[] everySixteenthFactorial = {
     0x1.0p0,
     0x1.30777758p44,
@@ -333,13 +340,13 @@ public final class DoubleMath {
    *   <li>Positive and negative zero are always fuzzily equal.
    *   <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then {@code a}
    *       and {@code b} are fuzzily equal if and only if {@code a == b}.
-   *   <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
+   *   <li>With {@code Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
    *   <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
    *       Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
    * </ul>
    *
    * <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
-   * equivalence relation and <em>not</em> suitable for use in {@link Object#equals}
+   * equivalence relation and <em>not</em> suitable for use in {@code Object#equals}
    * implementations.
    *
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
@@ -357,10 +364,10 @@ public final class DoubleMath {
    * Compares {@code a} and {@code b} "fuzzily," with a tolerance for nearly-equal values.
    *
    * <p>This method is equivalent to {@code fuzzyEquals(a, b, tolerance) ? 0 : Double.compare(a,
-   * b)}. In particular, like {@link Double#compare(double, double)}, it treats all NaN values as
-   * equal and greater than all other values (including {@link Double#POSITIVE_INFINITY}).
+   * b)}. In particular, like {@code Double#compare(double, double)}, it treats all NaN values as
+   * equal and greater than all other values (including {@code Double#POSITIVE_INFINITY}).
    *
-   * <p>This is <em>not</em> a total ordering and is <em>not</em> suitable for use in {@link
+   * <p>This is <em>not</em> a total ordering and is <em>not</em> suitable for use in {@code
    * Comparable#compareTo} implementations. In particular, it is not transitive.
    *
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
@@ -387,10 +394,11 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
-   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   * @deprecated Use {@code Stats#meanOf} instead, noting the less strict handling of non-finite
    *     values.
    */
   @Deprecated
+  // dev.mccue.guava.math.DoubleUtils
   public static double mean(double... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
@@ -413,7 +421,7 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty
-   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   * @deprecated Use {@code Stats#meanOf} instead, noting the less strict handling of non-finite
    *     values.
    */
   @Deprecated
@@ -439,7 +447,7 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @throws IllegalArgumentException if {@code values} is empty
-   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   * @deprecated Use {@code Stats#meanOf} instead, noting the less strict handling of non-finite
    *     values.
    */
   @Deprecated
@@ -465,10 +473,11 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
-   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   * @deprecated Use {@code Stats#meanOf} instead, noting the less strict handling of non-finite
    *     values.
    */
   @Deprecated
+  // dev.mccue.guava.math.DoubleUtils
   public static double mean(Iterable<? extends Number> values) {
     return mean(values.iterator());
   }
@@ -483,10 +492,11 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
-   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   * @deprecated Use {@code Stats#meanOf} instead, noting the less strict handling of non-finite
    *     values.
    */
   @Deprecated
+  // dev.mccue.guava.math.DoubleUtils
   public static double mean(Iterator<? extends Number> values) {
     checkArgument(values.hasNext(), "Cannot take mean of 0 values");
     long count = 1;
@@ -500,6 +510,7 @@ public final class DoubleMath {
     return mean;
   }
 
+  // dev.mccue.guava.math.DoubleUtils
   @CanIgnoreReturnValue
   private static double checkFinite(double argument) {
     checkArgument(isFinite(argument));

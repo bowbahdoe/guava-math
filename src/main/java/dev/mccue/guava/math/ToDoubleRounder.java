@@ -21,7 +21,7 @@ import java.math.RoundingMode;
 
 /**
  * Helper type to implement rounding {@code X} to a representable {@code double} value according to
- * a {@link RoundingMode}.
+ * a {@code RoundingMode}.
  */
 @ElementTypesAreNonnullByDefault
 abstract class ToDoubleRounder<X extends Number & Comparable<X>> {

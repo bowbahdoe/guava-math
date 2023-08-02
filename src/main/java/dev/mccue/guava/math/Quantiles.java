@@ -32,7 +32,7 @@ import java.util.Map;
  * Provides a fluent API for calculating <a
  * href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
  *
- * <h2>Examples</h2>
+ * <h3>Examples</h3>
  *
  * <p>To compute the median:
  *
@@ -40,7 +40,7 @@ import java.util.Map;
  * double myMedian = median().compute(myDataset);
  * }</pre>
  *
- * where {@link #median()} has been statically imported.
+ * where {@code #median()} has been statically imported.
  *
  * <p>To compute the 99th percentile:
  *
@@ -48,7 +48,7 @@ import java.util.Map;
  * double myPercentile99 = percentiles().index(99).compute(myDataset);
  * }</pre>
  *
- * where {@link #percentiles()} has been statically imported.
+ * where {@code #percentiles()} has been statically imported.
  *
  * <p>To compute median and the 90th and 99th percentiles:
  *
@@ -57,11 +57,11 @@ import java.util.Map;
  *     percentiles().indexes(50, 90, 99).compute(myDataset);
  * }</pre>
  *
- * where {@link #percentiles()} has been statically imported: {@code myPercentiles} maps the keys
+ * where {@code #percentiles()} has been statically imported: {@code myPercentiles} maps the keys
  * 50, 90, and 99, to their corresponding quantile values.
  *
- * <p>To compute quartiles, use {@link #quartiles()} instead of {@link #percentiles()}. To compute
- * arbitrary q-quantiles, use {@link #scale scale(q)}.
+ * <p>To compute quartiles, use {@code #quartiles()} instead of {@code #percentiles()}. To compute
+ * arbitrary q-quantiles, use {@code #scale scale(q)}.
  *
  * <p>These examples all take a copy of your dataset. If you have a double array, you are okay with
  * it being arbitrarily reordered, and you want to avoid that copy, you can use {@code
@@ -71,7 +71,7 @@ import java.util.Map;
  *
  * <p>The definition of the kth q-quantile of N values is as follows: define x = k * (N - 1) / q; if
  * x is an integer, the result is the value which would appear at index x in the sorted dataset
- * (unless there are {@link Double#NaN NaN} values, see below); otherwise, the result is the average
+ * (unless there are {@code Double#NaN NaN} values, see below); otherwise, the result is the average
  * of the values which would appear at the indexes floor(x) and ceil(x) weighted by (1-frac(x)) and
  * frac(x) respectively. This is the same definition as used by Excel and by S, it is the Type 7
  * definition in <a
@@ -81,27 +81,27 @@ import java.util.Map;
  * wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
  * uniform distribution on [0,1]."
  *
- * <p>Handling of non-finite values:</p>
+ * <h3>Handling of non-finite values</h3>
  *
- * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
+ * <p>If any values in the input are {@code Double#NaN NaN} then all values returned are {@code
  * Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
- * sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or {@link
+ * sorting with {@code java.util.Arrays#sort(double[]) Arrays.sort(double[])} or {@code
  * java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and selecting
- * the required value(s). Those methods would sort {@link Double#NaN NaN} as if it is greater than
- * any other value and place them at the end of the dataset, even after {@link
+ * the required value(s). Those methods would sort {@code Double#NaN NaN} as if it is greater than
+ * any other value and place them at the end of the dataset, even after {@code
  * Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
  *
- * <p>Otherwise, {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link
+ * <p>Otherwise, {@code Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@code
  * Double#POSITIVE_INFINITY POSITIVE_INFINITY} sort to the beginning and the end of the dataset, as
  * you would expect.
  *
  * <p>If required to do a weighted average between an infinity and a finite value, or between an
  * infinite value and itself, the infinite value is returned. If required to do a weighted average
- * between {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link Double#POSITIVE_INFINITY
- * POSITIVE_INFINITY}, {@link Double#NaN NaN} is returned (note that this will only happen if the
+ * between {@code Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@code Double#POSITIVE_INFINITY
+ * POSITIVE_INFINITY}, {@code Double#NaN NaN} is returned (note that this will only happen if the
  * dataset contains no finite values).
  *
- * <p>Performance:</p>
+ * <h3>Performance</h3>
  *
  * <p>The average time complexity of the computation is O(N) in the size of the dataset. There is a
  * worst case time complexity of O(N^2). You are extremely unlikely to hit this quadratic case on
@@ -109,15 +109,15 @@ import java.util.Map;
  * passing in unsanitized user data then a malicious user could force it. A light shuffle of the
  * data using an unpredictable seed should normally be enough to thwart this attack.
  *
- * <p>The time taken to compute multiple quantiles on the same dataset using {@link Scale#indexes
+ * <p>The time taken to compute multiple quantiles on the same dataset using {@code Scale#indexes
  * indexes} is generally less than the total time taken to compute each of them separately, and
  * sometimes much less. For example, on a large enough dataset, computing the 90th and 99th
  * percentiles together takes about 55% as long as computing them separately.
  *
- * <p>When calling {@link ScaleAndIndex#compute} (in {@linkplain ScaleAndIndexes#compute either
+ * <p>When calling {@code ScaleAndIndex#compute} (in {@code ScaleAndIndexes#compute either
  * form}), the memory requirement is 8*N bytes for the copy of the dataset plus an overhead which is
- * independent of N (but depends on the quantiles being computed). When calling {@link
- * ScaleAndIndex#computeInPlace computeInPlace} (in {@linkplain ScaleAndIndexes#computeInPlace
+ * independent of N (but depends on the quantiles being computed). When calling {@code
+ * ScaleAndIndex#computeInPlace computeInPlace} (in {@code ScaleAndIndexes#computeInPlace
  * either form}), only the overhead is required. The number of object allocations is independent of
  * N in both cases.
  *
@@ -126,7 +126,6 @@ import java.util.Map;
  */
 @ElementTypesAreNonnullByDefault
 public final class Quantiles {
-  public Quantiles() {}
 
   /** Specifies the computation of a median (i.e. the 1st 2-quantile). */
   public static ScaleAndIndex median() {
@@ -610,7 +609,7 @@ public final class Quantiles {
   }
 
   /**
-   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes {@code
+   * Performs an in-place selection, like {@code #selectInPlace}, to select all the indexes {@code
    * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */

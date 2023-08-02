@@ -44,8 +44,6 @@ public final class StatsAccumulator {
   private double min = NaN; // any value will do
   private double max = NaN; // any value will do
 
-  public StatsAccumulator() {}
-
   /** Adds the given value to the dataset. */
   public void add(double value) {
     if (count == 0) {
@@ -230,14 +228,14 @@ public final class StatsAccumulator {
    * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
    * the arithmetic mean of the population.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
-   * result is {@link Double#NaN}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
-   * only or {@link Double#POSITIVE_INFINITY} only, the result is {@link Double#POSITIVE_INFINITY}.
-   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
-   * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
+   * <p>If the dataset contains {@code Double#NaN} then the result is {@code Double#NaN}. If it
+   * contains both {@code Double#POSITIVE_INFINITY} and {@code Double#NEGATIVE_INFINITY} then the
+   * result is {@code Double#NaN}. If it contains {@code Double#POSITIVE_INFINITY} and finite values
+   * only or {@code Double#POSITIVE_INFINITY} only, the result is {@code Double#POSITIVE_INFINITY}.
+   * If it contains {@code Double#NEGATIVE_INFINITY} and finite values only or {@code
+   * Double#NEGATIVE_INFINITY} only, the result is {@code Double#NEGATIVE_INFINITY}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -249,14 +247,14 @@ public final class StatsAccumulator {
   /**
    * Returns the sum of the values.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
-   * result is {@link Double#NaN}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
-   * only or {@link Double#POSITIVE_INFINITY} only, the result is {@link Double#POSITIVE_INFINITY}.
-   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
-   * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
+   * <p>If the dataset contains {@code Double#NaN} then the result is {@code Double#NaN}. If it
+   * contains both {@code Double#POSITIVE_INFINITY} and {@code Double#NEGATIVE_INFINITY} then the
+   * result is {@code Double#NaN}. If it contains {@code Double#POSITIVE_INFINITY} and finite values
+   * only or {@code Double#POSITIVE_INFINITY} only, the result is {@code Double#POSITIVE_INFINITY}.
+   * If it contains {@code Double#NEGATIVE_INFINITY} and finite values only or {@code
+   * Double#NEGATIVE_INFINITY} only, the result is {@code Double#NEGATIVE_INFINITY}.
    */
   public final double sum() {
     return mean * count;
@@ -270,10 +268,10 @@ public final class StatsAccumulator {
    * is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -297,10 +295,10 @@ public final class StatsAccumulator {
    * is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -317,10 +315,10 @@ public final class StatsAccumulator {
    * <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
    * times, due to numerical errors. However, it is guaranteed never to return a negative result.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
@@ -337,16 +335,16 @@ public final class StatsAccumulator {
    * href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
    * corrected sample standard deviation</a> of the values. If this dataset is a sample drawn from a
    * population, this is an estimator of the population standard deviation of the population which
-   * is less biased than {@link #populationStandardDeviation()} (the unbiased estimator depends on
+   * is less biased than {@code #populationStandardDeviation()} (the unbiased estimator depends on
    * the distribution). The count must be greater than one.
    *
    * <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
    * times, due to numerical errors. However, it is guaranteed never to return a negative result.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
-   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@code Double#POSITIVE_INFINITY}, {@code
+   * Double#NEGATIVE_INFINITY}, or {@code Double#NaN}) then the result is {@code Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
@@ -357,13 +355,13 @@ public final class StatsAccumulator {
   /**
    * Returns the lowest value in the dataset. The count must be non-zero.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains {@link Double#NEGATIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
-   * Double#NEGATIVE_INFINITY}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
-   * only then the result is the lowest finite value. If it contains {@link
-   * Double#POSITIVE_INFINITY} only then the result is {@link Double#POSITIVE_INFINITY}.
+   * <p>If the dataset contains {@code Double#NaN} then the result is {@code Double#NaN}. If it
+   * contains {@code Double#NEGATIVE_INFINITY} and not {@code Double#NaN} then the result is {@code
+   * Double#NEGATIVE_INFINITY}. If it contains {@code Double#POSITIVE_INFINITY} and finite values
+   * only then the result is the lowest finite value. If it contains {@code
+   * Double#POSITIVE_INFINITY} only then the result is {@code Double#POSITIVE_INFINITY}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -375,13 +373,13 @@ public final class StatsAccumulator {
   /**
    * Returns the highest value in the dataset. The count must be non-zero.
    *
-   * <p>Non-finite values:</p>
+   * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains {@link Double#POSITIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
-   * Double#POSITIVE_INFINITY}. If it contains {@link Double#NEGATIVE_INFINITY} and finite values
-   * only then the result is the highest finite value. If it contains {@link
-   * Double#NEGATIVE_INFINITY} only then the result is {@link Double#NEGATIVE_INFINITY}.
+   * <p>If the dataset contains {@code Double#NaN} then the result is {@code Double#NaN}. If it
+   * contains {@code Double#POSITIVE_INFINITY} and not {@code Double#NaN} then the result is {@code
+   * Double#POSITIVE_INFINITY}. If it contains {@code Double#NEGATIVE_INFINITY} and finite values
+   * only then the result is the highest finite value. If it contains {@code
+   * Double#NEGATIVE_INFINITY} only then the result is {@code Double#NEGATIVE_INFINITY}.
    *
    * @throws IllegalStateException if the dataset is empty
    */

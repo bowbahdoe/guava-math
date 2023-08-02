@@ -36,18 +36,19 @@ import java.math.RoundingMode;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code long} and for {@link BigInteger} can be found in {@link
- * LongMath} and {@link BigIntegerMath} respectively. For other common operations on {@code int}
- * values, see {@link dev.mccue.guava.primitives.Ints}.
+ * <p>Similar functionality for {@code long} and for {@code BigInteger} can be found in {@code
+ * LongMath} and {@code BigIntegerMath} respectively. For other common operations on {@code int}
+ * values, see {@code dev.mccue.guava.primitives.Ints}.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
+
 @ElementTypesAreNonnullByDefault
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  @VisibleForTesting static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
+  static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
    * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to
@@ -82,7 +83,7 @@ public final class IntMath {
    * Returns {@code true} if {@code x} represents a power of two.
    *
    * <p>This differs from {@code Integer.bitCount(x) == 1}, because {@code
-   * Integer.bitCount(Integer.MIN_VALUE) == 1}, but {@link Integer#MIN_VALUE} is not a power of two.
+   * Integer.bitCount(Integer.MIN_VALUE) == 1}, but {@code Integer#MIN_VALUE} is not a power of two.
    */
   public static boolean isPowerOfTwo(int x) {
     return x > 0 & (x & (x - 1)) == 0;
@@ -93,7 +94,6 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
-  @VisibleForTesting
   static int lessThanBranchFree(int x, int y) {
     // The double negation is optimized away by normal Java, but is necessary for GWT
     // to make sure bit twiddling works as expected.
@@ -104,7 +104,7 @@ public final class IntMath {
    * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of two
    */
   @SuppressWarnings("fallthrough")
@@ -139,15 +139,16 @@ public final class IntMath {
   }
 
   /** The biggest half power of two that can fit in an unsigned int. */
-  @VisibleForTesting static final int MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333;
+  static final int MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333;
 
   /**
    * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
+  // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
   public static int log10(int x, RoundingMode mode) {
     checkPositive("x", x);
@@ -190,19 +191,16 @@ public final class IntMath {
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting
   static final byte[] maxLog10ForLeadingZeros = {
     9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0,
     0
   };
 
-  @VisibleForTesting
   static final int[] powersOf10 = {
     1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
   };
 
   // halfPowersOf10[i] = largest int less than 10^(i + 0.5)
-  @VisibleForTesting
   static final int[] halfPowersOf10 = {
     3, 31, 316, 3162, 31622, 316227, 3162277, 31622776, 316227766, Integer.MAX_VALUE
   };
@@ -212,10 +210,11 @@ public final class IntMath {
    * {@code BigInteger.valueOf(b).pow(k).intValue()}. This implementation runs in {@code O(log k)}
    * time.
    *
-   * <p>Compare {@link #checkedPow}, which throws an {@link ArithmeticException} upon overflow.
+   * <p>Compare {@code #checkedPow}, which throws an {@code ArithmeticException} upon overflow.
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  // failing tests
   public static int pow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -253,9 +252,10 @@ public final class IntMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code
    *     sqrt(x)} is not an integer
    */
+  // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
   public static int sqrt(int x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -473,7 +473,7 @@ public final class IntMath {
   /**
    * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
    *
-   * <p>{@link #pow} may be faster, but does not check for overflow.
+   * <p>{@code #pow} may be faster, but does not check for overflow.
    *
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     int} arithmetic
@@ -598,11 +598,11 @@ public final class IntMath {
     }
   }
 
-  @VisibleForTesting static final int FLOOR_SQRT_MAX_INT = 46340;
+  static final int FLOOR_SQRT_MAX_INT = 46340;
 
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
-   * {@code n == 0}, or {@link Integer#MAX_VALUE} if the result does not fit in a {@code int}.
+   * {@code n == 0}, or {@code Integer#MAX_VALUE} if the result does not fit in a {@code int}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
@@ -629,7 +629,7 @@ public final class IntMath {
 
   /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
-   * {@code k}, or {@link Integer#MAX_VALUE} if the result does not fit in an {@code int}.
+   * {@code k}, or {@code Integer#MAX_VALUE} if the result does not fit in an {@code int}.
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0} or {@code k > n}
    */
@@ -659,7 +659,6 @@ public final class IntMath {
   }
 
   // binomial(biggestBinomials[k], k) fits in an int, but not binomial(biggestBinomials[k]+1,k).
-  @VisibleForTesting
   static int[] biggestBinomials = {
     Integer.MAX_VALUE,
     Integer.MAX_VALUE,
@@ -700,11 +699,12 @@ public final class IntMath {
    * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i> be
    * factored into smaller positive integers).
    *
-   * <p>To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.
+   * <p>To test larger numbers, use {@code LongMath#isPrime} or {@code BigInteger#isProbablePrime}.
    *
    * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
+  // TODO
   public static boolean isPrime(int n) {
     return LongMath.isPrime(n);
   }

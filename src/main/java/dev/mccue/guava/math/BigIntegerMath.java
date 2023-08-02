@@ -37,12 +37,13 @@ import java.util.List;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@code long} can be found in {@link IntMath} and
- * {@link LongMath} respectively.
+ * <p>Similar functionality for {@code int} and for {@code long} can be found in {@code IntMath} and
+ * {@code LongMath} respectively.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
+
 @ElementTypesAreNonnullByDefault
 public final class BigIntegerMath {
   /**
@@ -77,7 +78,7 @@ public final class BigIntegerMath {
    * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of two
    */
   @SuppressWarnings("fallthrough")
@@ -126,9 +127,8 @@ public final class BigIntegerMath {
    * of two. This can be any value, but higher values incur more class load time and linearly
    * increasing memory consumption.
    */
-  @VisibleForTesting static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;
+  static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;
 
-  @VisibleForTesting
   static final BigInteger SQRT2_PRECOMPUTED_BITS =
       new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
 
@@ -136,9 +136,10 @@ public final class BigIntegerMath {
    * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
+  // TODO
   @SuppressWarnings("fallthrough")
   public static int log10(BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
@@ -213,9 +214,10 @@ public final class BigIntegerMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code
    *     sqrt(x)} is not an integer
    */
+  // TODO
   @SuppressWarnings("fallthrough")
   public static BigInteger sqrt(BigInteger x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -251,6 +253,7 @@ public final class BigIntegerMath {
     }
   }
 
+  // TODO
   private static BigInteger sqrtFloor(BigInteger x) {
     /*
      * Adapted from Hacker's Delight, Figure 11-1.
@@ -294,6 +297,7 @@ public final class BigIntegerMath {
     return sqrt0;
   }
 
+  // TODO
   private static BigInteger sqrtApproxWithDoubles(BigInteger x) {
     return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);
   }
@@ -304,18 +308,18 @@ public final class BigIntegerMath {
    * otherwise, the rounding will choose between the two nearest representable values with {@code
    * mode}.
    *
-   * <p>For the case of {@link RoundingMode#HALF_DOWN}, {@code HALF_UP}, and {@code HALF_EVEN},
+   * <p>For the case of {@code RoundingMode#HALF_DOWN}, {@code HALF_UP}, and {@code HALF_EVEN},
    * infinite {@code double} values are considered infinitely far away. For example, 2^2000 is not
    * representable as a double, but {@code roundToDouble(BigInteger.valueOf(2).pow(2000), HALF_UP)}
    * will return {@code Double.MAX_VALUE}, not {@code Double.POSITIVE_INFINITY}.
    *
-   * <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+   * <p>For the case of {@code RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
    * default rounding mode: if the two nearest representable values are equally near, the one with
    * the least significant bit zero is chosen. (In such cases, both of the nearest representable
    * values are even integers; this method returns the one that is a multiple of a greater power of
    * two.)
    *
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   * @throws ArithmeticException if {@code mode} is {@code RoundingMode#UNNECESSARY} and {@code x}
    *     is not precisely representable as a {@code double}
    * @since 30.0
    */
@@ -356,6 +360,7 @@ public final class BigIntegerMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
    */
+  // TODO
   public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {
     BigDecimal pDec = new BigDecimal(p);
     BigDecimal qDec = new BigDecimal(q);
@@ -507,6 +512,7 @@ public final class BigIntegerMath {
   }
 
   // Returns true if BigInteger.valueOf(x.longValue()).equals(x).
+  // TODO
   static boolean fitsInLong(BigInteger x) {
     return x.bitLength() <= Long.SIZE - 1;
   }
