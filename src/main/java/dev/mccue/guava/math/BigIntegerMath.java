@@ -21,9 +21,7 @@ import static dev.mccue.guava.math.MathPreconditions.checkPositive;
 import static dev.mccue.guava.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_DOWN;
 import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.UNNECESSARY;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
