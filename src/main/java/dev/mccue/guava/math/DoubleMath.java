@@ -30,7 +30,6 @@ import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
 import static java.lang.Math.rint;
 
-import dev.mccue.guava.primitives.Booleans;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -105,10 +104,8 @@ public final class DoubleMath {
             return z;
           }
         }
-
-      default:
-        throw new AssertionError();
     }
+    throw new AssertionError();
   }
 
   /**
@@ -126,6 +123,8 @@ public final class DoubleMath {
    *     </ul>
    */
   // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -151,6 +150,8 @@ public final class DoubleMath {
    *     </ul>
    */
   // #roundIntermediate
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRangeForRoundingInputs(
@@ -177,6 +178,8 @@ public final class DoubleMath {
    *     </ul>
    */
   // #roundIntermediate, java.lang.Math.getExponent, dev.mccue.guava.math.DoubleUtils
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings("ShortCircuitBoolean")
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -231,7 +234,8 @@ public final class DoubleMath {
    *     infinite
    */
   // java.lang.Math.getExponent, dev.mccue.guava.math.DoubleUtils
-  @SuppressWarnings("fallthrough")
+  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+  @SuppressWarnings({"fallthrough", "ShortCircuitBoolean"})
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
     int exponent = getExponent(x);
@@ -381,7 +385,7 @@ public final class DoubleMath {
     } else if (a > b) {
       return 1;
     } else {
-      return Booleans.compare(Double.isNaN(a), Double.isNaN(b));
+      return Boolean.compare(Double.isNaN(a), Double.isNaN(b));
     }
   }
 

@@ -30,6 +30,8 @@ import dev.mccue.guava.primitives.Doubles;
  */
 @ElementTypesAreNonnullByDefault
 public final class PairedStatsAccumulator {
+  /** Creates a new accumulator. */
+  public PairedStatsAccumulator() {}
 
   // These fields must satisfy the requirements of PairedStats' constructor as well as those of the
   // stat methods of this class.
